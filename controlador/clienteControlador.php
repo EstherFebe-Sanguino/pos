@@ -75,4 +75,11 @@ class ControladorCliente{
         $respuesta=ModeloCliente::mdlEliCliente($id);
         echo $respuesta;
     }
+    static function ctrBusCliente(){
+        require "../modelo/clienteModelo.php";
+        $nitCliente=$_POST["nitCliente"];
+
+        $respuesta=ModeloCliente::mdlBusCliente($nitCliente);
+        return $respuesta;
+    }
 }

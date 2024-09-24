@@ -5,7 +5,7 @@
       Un sistema de punto de venta
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">Temby</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2014-2021 <a href="https://google.com">Ekesoft</a>.</strong> Derechos reservados.
   </footer>
 </div>
 <!-- ./wrapper -->
