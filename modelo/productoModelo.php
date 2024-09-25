@@ -58,9 +58,9 @@ class Modeloproducto{
         $imgProducto=$data["imgProducto"];
     
     
-    $stmt=Conexion::conectar()->prepare("update producto set cod_producto_sin='$codProductoSIN',
-     descripcion='$descripcion', precio_producto='$preProducto', unidad_medida='$unidadMedidad', unidad_medida_sin='$unidadMedidadSIN', imagen_producto='$imgProducto', disponible='$estado'
-    where id_producto=$id");
+         $stmt=Conexion::conectar()->prepare("update producto set cod_producto_sin='$codProductoSIN',
+        descripcion='$descripcion', precio_producto='$preProducto', unidad_medida='$unidadMedidad', unidad_medida_sin='$unidadMedidadSIN', imagen_producto='$imgProducto', disponible='$estado'
+        where id_producto=$id");
     
             if($stmt->execute()){
                 return "ok";
@@ -80,4 +80,19 @@ class Modeloproducto{
             return "error";
         }
     }
+
+    static public function mdlBusProducto($cod){
+        $stmt = Conexion::conectar()->prepare("select * from producto where cod_producto='$cod'");
+        $stmt->execute();
+
+        return $stmt->fetch();
+
+
+        $stmt->close();
+        $stmt->null;
+
+    }
+
+   
+
 }

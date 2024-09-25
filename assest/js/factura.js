@@ -62,3 +62,38 @@ function numFactura(){
         }
     })
 }
+
+function busProducto(){
+    let codProducto = document.getElementById("codProducto").value
+
+    var obj = {
+      codProducto: codProducto
+    }
+  
+    $.ajax({
+      type: "POST",
+      url: "controlador/productoControlador.php?ctrBusProducto",
+      data: obj,
+      dataType: "json",
+      success: function (data) {
+  
+        document.getElementById("conceptoPro").value=data["nombre_producto"];
+        document.getElementById("uniMedida").value=data["unidad_medida"];
+        document.getElementById("preUnitario").value=data["precio_producto"];
+  
+  
+        document.getElementById("uniMedidaSin").value=data["unidad_medida_sin"];
+        document.getElementById("codProductoSin").value=data["cod_producto_sin"];
+  
+      }
+    })
+}
+
+function calcularPreProd(){
+    let cantPro=parseInt(document.getElementById("cantProducto").value)
+    let descProducto=parseFloat(document.getElementById("descProducto").value)
+    let preUnitario=parseFloat(document.getElementById("preUnitario").value)
+    
+    let preProducto=preUnitario-descProducto
+    document.getElementById("preTotal").value=preProducto*cantPro
+  }
