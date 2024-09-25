@@ -6,6 +6,7 @@ if(isset($ruta["query"])){
 
 if($ruta["query"]=="ctrRegFactura"||
    $ruta["query"]=="ctrEditFactura"||
+   $ruta["query"]=="ctrNumFactura"||
    $ruta["query"]=="ctrEliFactura"){
     $metodo=$ruta["query"];
     $factura=new ControladorFactura();
@@ -13,9 +14,6 @@ if($ruta["query"]=="ctrRegFactura"||
 }
 
 }
-
-
-
 
 class ControladorFactura{
    
@@ -50,12 +48,12 @@ class ControladorFactura{
 static function ctrEditFactura(){
     require "../modelo/facturaModelo.php";
 
-if($_POST["password"]==$_POST["passActual"]){
+    if($_POST["password"]==$_POST["passActual"]){
     $password=$_POST["password"];
-}
-else{
+    }
+    else{
     $password=password_hash($_POST["password"], PASSWORD_DEFAULT);
-}
+     }
 
     
 
@@ -68,13 +66,10 @@ else{
     );
 
     ModeloFactura::mdlEditFactura($data);
-
-/*     $respuesta=ModeloFactura::mdlEditFactura($data);
-
-    echo $respuesta; */
-
-
 }
+
+
+
 
 static function ctrEliFactura(){
     require "../modelo/facturaModelo.php";
@@ -83,5 +78,16 @@ static function ctrEliFactura(){
     $respuesta= ModeloFactura::mdlEliFactura($id);
     echo $respuesta;
 }
+        
+static function ctrNumFactura(){
+    require "../modelo/facturaModelo.php";
+    $respuesta= ModeloFactura::mdlNumFactura();
+    if($respuesta["max(id_factura)"]==null){
+    echo "1";
+    }else{
+    echo $respuesta["max(id_factura)"]+1;
+    }
+    }
 
-}//final
+
+}

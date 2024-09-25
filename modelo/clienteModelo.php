@@ -6,16 +6,14 @@ class ModeloCliente{
     $stmt->execute();
     return $stmt->fetch();
 
-    //$stmt->closeCursor();
-    //$stmt-->null;
+
     }
     static public function mdlInfoClientes(){
     $stmt=Conexion::conectar()->prepare("select * from cliente");
     $stmt->execute();
     return $stmt->fetchAll();
 
-    //$stmt->closeCursor();
-    //$stmt-->null;
+
     }
     static public function mdlRegCliente($data){
         $razonCliente=$data["razonCliente"];
@@ -31,19 +29,17 @@ class ModeloCliente{
         }else{
             return "error";
         }
-        //$stmt->closeCursor();
-        //$stmt-->null;
+
     }
     static public function mdlInfoCliente($id){
         $stmt=Conexion::conectar()->prepare("select * from cliente where id_cliente=$id");
         $stmt->execute();
         return $stmt->fetch();
     
-        //$stmt->closeCursor();
-        //$stmt-->null;
+
     }
     static public function mdlEditCliente($data){
-        // var_dump($data);
+
         $razonCliente=$data["razonCliente"];
         $nitCliente=$data["nitCliente"];
         $direccionCliente=$data["direccionCliente"];
@@ -59,8 +55,7 @@ class ModeloCliente{
         }else{
             return "error";
         }
-        //$stmt->closeCursor();
-        //$stmt-->null;
+
     }
     static public function mdlEliCliente($id){
 
@@ -71,8 +66,7 @@ class ModeloCliente{
         }else{
             return "error";
         }
-        //$stmt->closeCursor();
-        //$stmt-->null;
+
     }
     static public function mdlActualizarAcceso($fechaHora, $id){
         $stmt=Conexion::conectar()->prepare("update cliente set ultimo_login='$fechaHora' where id_cliente='$id'");
@@ -82,7 +76,13 @@ class ModeloCliente{
         }else{
           return "error";
         }
-        //$stmt->closeCursor();
-        //$stmt-->null;
+   
       }
+
+    static public function mdlBusCliente($nitCliente){
+        $stmt = Conexion::conectar()->prepare("select * from cliente where nit_ci_cliente=$nitCliente");
+        $stmt->execute();
+        return $stmt->fetch();
+
+    }
 }   

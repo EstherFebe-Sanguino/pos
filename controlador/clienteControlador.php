@@ -1,9 +1,13 @@
 <?php
     $ruta=parse_url($_SERVER["REQUEST_URI"]);
-    // var_dump($ruta);
+
 
     if(isset($ruta["query"])){
-        if($ruta["query"]=="ctrRegCliente" || $ruta["query"]=="ctrEditCliente" || $ruta["query"]=="ctrEliCliente"){
+        if($ruta["query"]=="ctrRegCliente" || 
+        $ruta["query"]=="ctrEditCliente" ||
+        $ruta["query"]=="ctrEliCliente" || 
+        $ruta["query"]=="ctrBusCliente"
+        ){
             $metodo=$ruta["query"];
             $cliente=new ControladorCliente();
             $cliente->$metodo();
@@ -33,11 +37,10 @@ class ControladorCliente{
         return $respuesta;
     }
     static public function ctrRegCliente(){
-        // $respuesta=ModeloCliente::mdlInfoClientes();
-        // return $respuesta;
+
 
         require "../modelo/clienteModelo.php";
-        //$password=password_hash($_POST["password"], PASSWORD_DEFAULT);
+
         $data=array(
             "razonCliente"=>$_POST["razon"],
             "nitCliente"=>$_POST["nit"],
@@ -78,8 +81,8 @@ class ControladorCliente{
     static function ctrBusCliente(){
         require "../modelo/clienteModelo.php";
         $nitCliente=$_POST["nitCliente"];
+        $respuesta = ModeloCliente::mdlBusCliente($nitCliente);
+        echo json_encode($respuesta);
 
-        $respuesta=ModeloCliente::mdlBusCliente($nitCliente);
-        return $respuesta;
     }
 }
