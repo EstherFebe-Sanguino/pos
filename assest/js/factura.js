@@ -81,9 +81,9 @@ function busProducto(){
         document.getElementById("uniMedida").value=data["unidad_medida"];
         document.getElementById("preUnitario").value=data["precio_producto"];
   
-  
         document.getElementById("uniMedidaSin").value=data["unidad_medida_sin"];
         document.getElementById("codProductoSin").value=data["cod_producto_sin"];
+        
   
       }
     })
@@ -96,4 +96,61 @@ function calcularPreProd(){
     
     let preProducto=preUnitario-descProducto
     document.getElementById("preTotal").value=preProducto*cantPro
-  }
+  } 
+var arregloCarrito=[]
+var listaDetalle=document.getElementById("listaDetalle")
+function agregarCarrito(){
+    let actEconomica=document.getElementById("actEconomica").value
+    let codProducto=document.getElementById("codProducto").value
+    let codProductoSin=parseInt(document.getElementById("codProductoSin").value)
+    let conceptoPro=document.getElementById("conceptoPro").value
+    let cantProducto=parseInt(document.getElementById("cantProducto").value)
+    let uniMedida=document.getElementById("uniMedida").value
+    let uniMedidaSin=parseInt(document.getElementById("uniMedidaSin").value)
+    let preUnitario=parseFloat(document.getElementById("preUnitario").value)
+    let descProducto=parseFloat(document.getElementById("descProducto").value)
+    let preTotal=parseFloat(document.getElementById("preTotal").value)
+
+    let objDetalle={
+    actividadEconomica:actEconomica,
+    codigoProductoSin:codProductoSin,
+    codigoProducto:codProducto,
+    descripcion:conceptoPro,
+    cantidad:cantProducto,
+    unidadMedida:uniMedidaSin,
+    precioUnitario:preUnitario,
+    montoDescuento:descProducto,
+    subTotal:preTotal
+}
+    arregloCarrito.push(objDetalle)
+    dibujarTablaCarrito()
+
+} 
+function dibujarTablaCarrito(){
+    listaDetalle.innerHTML=""
+
+    arregloCarrito.forEach((detalle)=>{
+        let fila=document.createElement("tr")
+
+        fila.innerHTML='<td>'+detalle.descripcion+'</td>'+
+        '<td>'+detalle.cantidad+'</td>'+
+        '<td>'+detalle.precioUnitario+'</td>'+
+        '<td>'+detalle.montoDescuento+'</td>'+
+        '<td>'+detalle.subTotal+'</td>'
+
+        let tdElimimar=document.createElement("td")
+        let botonElimimar=document.createElement("button")
+
+        botonElimimar.classList.add("btn", "btn-danger")
+        botonElimimar.innerText="Eliminar"
+        botonElimimar.onclick=()=>{  
+            eliminarCarrito(detalle.codigoProducto)
+        }       
+        tdElimimar.appendChild(botonElimimar)
+        fila.appendChild(tdElimimar)
+
+ 
+        listaDetalle.appendChild(fila)
+
+    })
+}   
