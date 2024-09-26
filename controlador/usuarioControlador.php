@@ -27,21 +27,22 @@ class ControladorUsuario{
             $password = $_POST["password"];
 
             $resultado = ModeloUsuario::mdlAccesoUsuario($usuario);
-            if ($resultado == false) {
-                echo "Este usuario no existe";
-            } else {
-                if ($resultado==true) {
-                    $_SESSION["ingreso"] = $resultado["login_usuario"];
+            if ($resultado && 
+            $resultado["login_usuario"] == $usuario && 
+            password_verify($password, $resultado["password"]) && 
+            $resultado["estado"] == 1) {
+               
+                    $_SESSION["login"] = $resultado["login_usuario"];
                     $_SESSION["perfil"] = $resultado["perfil"];
                     $_SESSION["idUsuario"] = $resultado["id_usuario"];
-                    $_SESSION["ingreso"] = "ok";
+                    $_SESSION["ingreso"] ="ok";
 
                     date_default_timezone_set("America/La_Paz");
                     $fecha = date("Y-m-d");
                     $hora = date("H-i-s");
 
-                    $fechaHora = $fecha . " " . $hora;
-                    $id = $resultado["id_usuario"];
+                    $fechaHora = $fecha ." ". $hora;
+                    $id=$resultado["id_usuario"];
 
                     $ultimoLogin = ModeloUsuario::mdlActualizarAcceso($fechaHora, $id);
 
@@ -49,7 +50,7 @@ class ControladorUsuario{
                         echo '<script> window.location="inicio";  </script>';
                     }
                 }
-            }
+            
         }
     }
 
@@ -80,15 +81,15 @@ class ControladorUsuario{
     }
 
 
-static function ctrEditUsuario(){
-    require "../modelo/usuarioModelo.php";
+    static function ctrEditUsuario(){
+        require "../modelo/usuarioModelo.php";
 
-if($_POST["password"]==$_POST["passActual"]){
-    $password=$_POST["password"];
-}
-else{
-    $password=password_hash($_POST["password"], PASSWORD_DEFAULT);
-}
+        if($_POST["password"]==$_POST["passActual"]){
+        $password=$_POST["password"];
+        }
+        else{
+        $password=password_hash($_POST["password"], PASSWORD_DEFAULT);
+        }
 
     
 
@@ -101,20 +102,15 @@ else{
     );
 
     ModeloUsuario::mdlEditUsuario($data);
-
-/*     $respuesta=ModeloUsuario::mdlEditUsuario($data);
-
-    echo $respuesta; */
-
-
-}
-
-static function ctrEliUsuario(){
-    require "../modelo/usuarioModelo.php";
-    $id=$_POST["id"];
-
-    $respuesta= ModeloUsuario::mdlEliUsuario($id);
     echo $respuesta;
-}
+    }
 
-}//final
+    static function ctrEliUsuario(){
+         require "../modelo/usuarioModelo.php";
+         $id=$_POST["id"];
+
+         $respuesta= ModeloUsuario::mdlEliUsuario($id);
+         echo $respuesta;
+    }
+
+}

@@ -7,19 +7,19 @@ class ModeloUsuario{
         $stmt->execute();
 
         return $stmt->fetch();
-
-  /*       $stmt->close();
-        $stmt->null;  */
+       
     }
 
     static public function mdlActualizarAcceso($fechaHora, $id){
         $stmt=Conexion::conectar()->prepare("update usuario set ultimo_login='$fechaHora' where id_usuario='$id'");
-        
+    
         if($stmt->execute()){
           return "ok";
         }else{
           return "error";
         }
+    
+       
       }
 
     
@@ -28,9 +28,7 @@ class ModeloUsuario{
         $stmt->execute();
 
         return $stmt->fetchAll();
-
-  /*       $stmt->close();
-        $stmt->null;  */
+       
         
     }
 
@@ -41,8 +39,7 @@ class ModeloUsuario{
         $password=$data["password"];
         $perfil=$data["perfil"];
 
-        $stmt=Conexion::conectar()->prepare("insert into usuario(login_usuario, password, perfil) values('$loginUsuario', 
-        '$password', '$perfil')");
+        $stmt=Conexion::conectar()->prepare("insert into usuario(login_usuario, password, perfil) values('$loginUsuario', '$password', '$perfil')");
 
         if($stmt->execute()){
             return "ok";
@@ -50,12 +47,11 @@ class ModeloUsuario{
         else{
             return "error";
         }
+      
 
-  /*       $stmt->close();
-        $stmt->null();
- */
 
     }
+    
 
     static public function mdlInfoUsuario($id){
         $stmt=Conexion::conectar()->prepare("select * from usuario where id_usuario=$id");
@@ -63,11 +59,10 @@ class ModeloUsuario{
 
         return $stmt->fetch();
 
-  /*   $stmt->close();
-        $stmt->null; */ 
+        
     }
 
-static public function mdlEditUsuario($data){
+    static public function mdlEditUsuario($data){
 
         $password=$data["password"];
         $perfil=$data["perfil"];
@@ -83,13 +78,12 @@ static public function mdlEditUsuario($data){
         else{
             return "error";
         }
-/* 
-        $stmt->close();
-        $stmt->null();
- */
-}
+ 
+ 
 
-static public function mdlEliUsuario($id){
+    }
+
+    static public function mdlEliUsuario($id){
 
     $stmt=Conexion::conectar()->prepare("delete from usuario where id_usuario=$id");
 
@@ -99,11 +93,9 @@ static public function mdlEliUsuario($id){
     else{
         return "error";
     }
-/* 
-    $stmt->close();
-    $stmt->null();
-*/
+ 
+  
+
+    }
 
 }
-
-}//final
