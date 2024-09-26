@@ -103,7 +103,8 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Descuento</span>
                                 </div>
-                                <input type="text" class="form-control" name="descAdicional" id="descAdicional" value="0.00">
+                                <input type="text" class="form-control" name="descAdicional" id="descAdicional" value="0.00"
+                                onkeyup="calcularTotal()">
                             </div>
 
                             <div class="input-group sm-3">
@@ -239,7 +240,7 @@
             <div class="card-footer">
                 <table class="table">
                  <thead> 
-                    <tr>  
+                    <tr>
                         <th>Descripcion</th>
                         <th>Cantidad</th>
                         <th>P. Unitario</th>

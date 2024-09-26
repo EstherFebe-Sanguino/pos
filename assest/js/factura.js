@@ -84,7 +84,7 @@ function busProducto(){
         document.getElementById("uniMedidaSin").value=data["unidad_medida_sin"];
         document.getElementById("codProductoSin").value=data["cod_producto_sin"];
         
-  
+        
       }
     })
 }
@@ -120,7 +120,7 @@ function agregarCarrito(){
     unidadMedida:uniMedidaSin,
     precioUnitario:preUnitario,
     montoDescuento:descProducto,
-    subTotal:preTotal
+    subtotal:preTotal
 }
     arregloCarrito.push(objDetalle)
     dibujarTablaCarrito()
@@ -164,4 +164,26 @@ function dibujarTablaCarrito(){
         listaDetalle.appendChild(fila)
 
     })
+
+    calcularTotal()
 }   
+
+function eliminarCarrito(cod){ 
+    arregloCarrito=arregloCarrito.filter((detalle)=>{
+        if(cod!=detalle.codigoProducto){
+            return detalle
+        }
+    })
+
+    dibujarTablaCarrito()
+}
+function calcularTotal(){
+    let totalCarrito=0
+
+    for(var i=0; i<arregloCarrito.length; i++){
+        totalCarrito=totalCarrito+parseFloat(arregloCarrito[i].subtotal)
+    }
+    document.getElementById("subTotal").value=totalCarrito
+    let descAdicional=parseFloat(document.getElementById("descAdicional").value)    
+    document.getElementById("totApagar").value=totalCarrito-descAdicional
+}
