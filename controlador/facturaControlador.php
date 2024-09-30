@@ -45,7 +45,7 @@ class ControladorFactura{
     }
 
 
-static function ctrEditFactura(){
+static public function ctrEditFactura(){
     require "../modelo/facturaModelo.php";
 
     if($_POST["password"]==$_POST["passActual"]){
@@ -71,7 +71,7 @@ static function ctrEditFactura(){
 
 
 
-static function ctrEliFactura(){
+static public function ctrEliFactura(){
     require "../modelo/facturaModelo.php";
     $id=$_POST["id"];
 
@@ -79,7 +79,7 @@ static function ctrEliFactura(){
     echo $respuesta;
 }
         
-static function ctrNumFactura(){
+static public function ctrNumFactura(){
     require "../modelo/facturaModelo.php";
     $respuesta= ModeloFactura::mdlNumFactura();
     if($respuesta["max(id_factura)"]==null){
@@ -90,4 +90,15 @@ static function ctrNumFactura(){
     }
 
 
+
+
+static public function ctrNuevoCufd(){
+    require "../modelo/facturaModelo.php";
+    $data=array(
+    "cufd"=>$_POST["cufd"],
+    "fechaVigCufd"=>$_POST["fechaVigCufd"],
+    "codControlCufd"=>$_POST["codControlCufd"]
+    );
+    return ModeloFactura::mdlNuevoCufd($data);
+}
 }

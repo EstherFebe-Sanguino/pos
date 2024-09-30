@@ -30,9 +30,9 @@ static public function mdlRegFactura($data){
             return "error";
         }
 
-  /*       $stmt->close();
+        $stmt->close();
         $stmt->null();
- */
+
 
 }
 
@@ -98,6 +98,26 @@ static public function mdlNumFactura(){
     
 }
 
+static public function mdlNuevoCufd($data){
+
+    $cufd=$_data["cufd"];
+    $fechaVigCufd=$_data["fechaVigCufd"];
+    $codControlCufd=$_data["codControlCufd"];
+
+    $stmt=Conexion::conectar()->prepare("insert into cufd(codigo_cufd, codigo_control, fecha_vigencia) values('$cufd', 
+    '$fechaVigCufd', '$codControlCufd')");
+
+    if($stmt->execute()){
+        return "ok";
+    }
+    else{
+        return "error";
+    }
+
+    $stmt->close();
+    $stmt->null();
+
+}
 
 
 }
