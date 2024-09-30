@@ -246,9 +246,34 @@ function registrarNuevoCufd(){
         url:"controlador/facturaControlador.php?ctrNuevoCufd",
         cache:false,
         success:function(data){
-            console.log(data)
+           
         }
      }) 
+}
+
+function verificarVigenciaCufd(){
+    let date=new Date()
+
+    var obj=""
+    $.ajax({
+        type:"POST",
+        url:"controlador/facturaControlador.php?ctrUltimoCufd",
+        data:obj,
+        cache:false,
+        dataType:"json",
+        success:function(data){
+            console.log(data)
+            let vigCufdActual=new Date(data["fecha_vigencia"])
+
+            if(date.getTime()>vigCufdActual.getTime()){
+                $("panelInfo").before("<span='text-warning'>Cufd caducado!!!</span><br>")
+                $("panelInfo").before("<span>Registrando cufd...</span><br>")
+                //registrarNuevoCufd()
+            }else{
+                $("panelInfo").before("<span='text-success'>Cufd vigente, puede facturar!!!</span><br>")
+            }
+        }
+    })
 }
 
 function emitirFactura(){

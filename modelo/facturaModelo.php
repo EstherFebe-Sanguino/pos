@@ -42,8 +42,8 @@ static public function mdlInfoFactura($id){
 
         return $stmt->fetch();
 
-  /*   $stmt->close();
-        $stmt->null; */ 
+        $stmt->close();
+        $stmt->null; 
 }
 
 static public function mdlEditFactura($data){
@@ -104,8 +104,8 @@ static public function mdlNuevoCufd($data){
     $fechaVigCufd=$_data["fechaVigCufd"];
     $codControlCufd=$_data["codControlCufd"];
 
-    $stmt=Conexion::conectar()->prepare("insert into cufd(codigo_cufd, codigo_control, fecha_vigencia) values('$cufd', 
-    '$fechaVigCufd', '$codControlCufd')");
+    $stmt=Conexion::conectar()->prepare("insert into cufd(codigo_cufd, codigo_control,
+     fecha_vigencia) values('$cufd', '$codControlCufd', '$fechaVigCufd')");
 
     if($stmt->execute()){
         return "ok";
@@ -119,5 +119,13 @@ static public function mdlNuevoCufd($data){
 
 }
 
+static public function mdlUltimoCufd(){
+    $stmt=Conexion::conectar()->prepare("SELECT * FROM cufd WHERE id_cufd=(select max(id_cufd) from cufd)");
+    $stmt->execute();
 
+    return $stmt->fetch();
+
+    $stmt->close();
+    $stmt->null; 
+}
 }

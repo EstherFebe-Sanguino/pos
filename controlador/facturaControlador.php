@@ -7,6 +7,8 @@ if(isset($ruta["query"])){
 if($ruta["query"]=="ctrRegFactura"||
    $ruta["query"]=="ctrEditFactura"||
    $ruta["query"]=="ctrNumFactura"||
+   $ruta["query"]=="ctrUltimoCufd"||
+   $ruta["query"]=="ctrNuevoCufd"||
    $ruta["query"]=="ctrEliFactura"){
     $metodo=$ruta["query"];
     $factura=new ControladorFactura();
@@ -99,6 +101,14 @@ static public function ctrNuevoCufd(){
     "fechaVigCufd"=>$_POST["fechaVigCufd"],
     "codControlCufd"=>$_POST["codControlCufd"]
     );
-    return ModeloFactura::mdlNuevoCufd($data);
+    echo ModeloFactura::mdlNuevoCufd($data);
+}
+
+static public function ctrUltimoCufd(){
+    require "../modelo/facturaModelo.php";
+
+    $respuesta=ModeloFactura::mdlUltimoCufd();
+    echo json_encode($respuesta);
+
 }
 }

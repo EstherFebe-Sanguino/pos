@@ -123,6 +123,11 @@
                                 </div>
                             </div>
 
+
+                            <div class="callout-info direct-chat-messanges" style="heigh:100px; width:290px">
+                                <span class="list-unstyled" id="panelInfo"></span>
+                            </div>
+
                         </div>
                     </div>
                 </div>
