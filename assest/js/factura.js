@@ -10,6 +10,7 @@ var dirEmpresa="Calle Pucara 129 AVENIDA 7MO ANILLO NRO. 7550 ZONA/BARRIO: TIERR
 var cufd;
 var codControlCufd;
 var fechaVigCufd;
+var leyenda;
 
 function verificarComunicacion(){
     var obj=""
@@ -297,6 +298,30 @@ function verificarVigenciaCufd(){
     })
 }
 
+/*=================
+obtener leyenda
+===================*/
+function extraerLeyenda(){
+    var obj=""
+
+    $.ajax({
+        type:"POST",
+        url:"controlador/facturaControlador.php?ctrLeyenda",
+        data:obj,
+        cache:false,
+        dataType:"json",
+        success:function(data){
+            leyenda=data["desc_leyenda"]
+
+        }
+    })
+
+}
+
+/*=================
+emitir factura
+===================*/
+
 function emitirFactura(){
 
     let date=new Date()
@@ -309,6 +334,10 @@ function emitirFactura(){
     let totApagar=parseFloat(document.getElementById("totApagar").value)
     let descAdicional=parseFloat(document.getElementById("descAdicional").value)
     let subTotal=parseFloat(document.getElementById("subTotal").value)
+    let usuarioLogin=document.getElementById("usuarioLogin").innerHTML
+
+    let actEconomica=document.getElementById("actEconomia").value
+    let emailCliente=document.getElementById("emailCliente").value
 
     var obj={
         codigoAmbiente:2,
@@ -319,7 +348,7 @@ function emitirFactura(){
         codigoPuntoVentaSpecified:true,
         codigoSistema: codSistema,
         codigoSucursal:0,
-        cufd:"",
+        cufd:cufd,
         cuis:cuis,
         nit:nitEmpresa,
         tipoFacturaDocumento:1,
@@ -353,7 +382,7 @@ function emitirFactura(){
             descuentoAdicional:descAdicional,
             codigoExcepcion:0,
             cafc:null,
-            leyenda:"",
+            leyenda:leyenda,
             usuario:usuarioLogin,
             codigoDocumentoSector:1,
           },
