@@ -262,3 +262,9 @@
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
+<script>
+    setTimeout(() => {
+        verificarVigenciaCufd()  
+    }, 4000);
+</script>

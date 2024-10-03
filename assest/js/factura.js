@@ -204,29 +204,35 @@ function calcularTotal(){
 obtencion de cufd
 =================*/
 function solicitudCufd(){
-    var obj={
-        codigoAmbiente:2,
-        codigoModalidad:2,
-        codigoPuntoVenta:0,
-        codigoPuntoVentaSpecified:true,
-        codigoSistema: codSistema,
-        codigoSucursal:0,
-        nit:nitEmpresa,
-        cuis:cuis
-    }
-
-    $.ajax({
-        type:"POST",
-        url:host+"api/Codigos/solicitudCufd?token="+token,
-        data:JSON.stringify(obj),
-        cache:false,
-        contentType:"application/json",
-        success:function(data){
-            cufd=data["codigo"]
-            codControlCufd=data["codigoControl"]
-            fechaVigCufd=data["fechaVigencia"]
+    return new Promise((resolve, reject)=>{
+        var obj={
+            codigoAmbiente:2,
+            codigoModalidad:2,
+            codigoPuntoVenta:0,
+            codigoPuntoVentaSpecified:true,
+            codigoSistema: codSistema,
+            codigoSucursal:0,
+            nit:nitEmpresa,
+            cuis:cuis
         }
+    
+        $.ajax({
+            type:"POST",
+            url:host+"api/Codigos/solicitudCufd?token="+token,
+            data:JSON.stringify(obj),
+            cache:false,
+            contentType:"application/json",
+            success:function(data){
+                cufd=data["codigo"]
+                codControlCufd=data["codigoControl"]
+                fechaVigCufd=data["fechaVigencia"]
+
+                resolve(cufd)
+            }
+        })
+
     })
+    
 }
 
 /*=================
@@ -234,21 +240,32 @@ registar nuevo cufd
 ===================*/
 function registrarNuevoCufd(){
 
-    var obj={
-        "cufd":cufd,
-        "fechaVigCufd":fechaVigCufd,
-        "codControlCufd":codControlCufd
-     }
+    solicitudCufd().then(ok=>{
 
-     $.ajax({
-        type:"POST",
-        data:obj,
-        url:"controlador/facturaControlador.php?ctrNuevoCufd",
-        cache:false,
-        success:function(data){
-           
-        }
-     }) 
+        if(ok!="" || ok!=null){
+            var obj={
+                "cufd":cufd,
+                "fechaVigCufd":fechaVigCufd,
+                "codControlCufd":codControlCufd
+             }
+        
+             $.ajax({
+                type:"POST",
+                data:obj,
+                url:"controlador/facturaControlador.php?ctrNuevoCufd",
+                cache:false,
+                success:function(data){
+                    if(data=="ok"){
+                    $("panelInfo").before("<span='text-primary'>Cufd registrado</span><br>")
+                }else{
+                    $("panelInfo").before("<span='text-danger'>Error de registro cufd!!!</span><br>")
+
+                }
+            }
+             }) 
+
+        }   
+    })
 }
 
 function verificarVigenciaCufd(){
@@ -271,6 +288,10 @@ function verificarVigenciaCufd(){
                 //registrarNuevoCufd()
             }else{
                 $("panelInfo").before("<span='text-success'>Cufd vigente, puede facturar!!!</span><br>")
+
+                cufd=data["codigo_cufd"]
+                codControlCufd=data["codigo_control"]
+                fechaVigCufd=data["fecha_vigencia"]
             }
         }
     })
