@@ -319,10 +319,38 @@ function extraerLeyenda(){
 }
 
 /*=================
-emitir factura
+validar formulario
+===================*/
+
+function validarFormulario(){
+    let numFactura=document.getElementById("numFactura").value
+    let nitCliente=document.getElementById("nitCliente").value
+    let emailCliente=document.getElementById("emailCliente").value
+    let rsCliente=document.getElementById("rsCliente").value
+
+    if(numFactura==null || numFactura.length==0){
+        $("panelInfo").before("<span='text-danger'>Asegurarse de llenar los campos faltantes!!!</span><br>")
+        return false
+    }else if(nitCliente==null || nitCliente.length==0){
+        $("panelInfo").before("<span='text-danger'>Asegurarse de llenar los campos faltantes!!!</span><br>")
+        return false
+    }else if(emailCliente==null || emailCliente.length==0){
+        $("panelInfo").before("<span='text-danger'>Asegurarse de llenar los campos faltantes!!!</span><br>")
+        return false
+    }else if(rsCliente==null || rsCliente.length==0){
+        $("panelInfo").before("<span='text-danger'>Asegurarse de llenar los campos faltantes!!!</span><br>")
+        return false
+    }
+
+    return true
+    
+}
+/*=================
+emitir factnitClienteura
 ===================*/
 
 function emitirFactura(){
+    if(validarFormulario()==true){
 
     let date=new Date()
     let numFactura=parseInt(document.getElementById("numFactura").value)
@@ -390,6 +418,20 @@ function emitirFactura(){
           }
         
     }
+
+    $.ajax({
+        type:"POST",
+        url:host+"api/CompraVenta/recepcion",
+        data:JSON.stringify(obj),
+        cache:false,
+        contentType:"application/json",
+        processData:false,
+        success:function(data){
+            console.log(data)
+        }
+
+    })
+}
 }
 
 
