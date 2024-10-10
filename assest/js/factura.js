@@ -56,6 +56,7 @@ function busCliente(){
                 document.getElementById("emailCliente").value=data["email_cliente"]
             }
             document.getElementById("rsCliente").value=data["razon_social_cliente"]
+            document.getElementById("idCliente").value=data["id_cliente"]
             numFactura()
         }
 
@@ -297,6 +298,22 @@ function verificarVigenciaCufd(){
         }
     })
 }
+/*===================================
+transformar fecha con formato iso8601
+=====================================*/
+function transformarFecha(fechaISO){
+    let fecha_iso=fechaISO.split("T")
+    let hora_iso=fecha_iso[1].split(".")
+
+    let fecha=fecha_iso[0]
+    let hora=hora_iso[0]
+
+    let fecha_hora=fecha+" "+hora
+    return fecha_hora 
+}
+
+
+
 
 /*=================
 obtener leyenda
@@ -430,11 +447,52 @@ function emitirFactura(){
         contentType:"application/json",
         processData:false,
         success:function(data){
-            console.log(data)
+            
+            if(data["codigoResultado"]!=908){
+            $("#panelInfo").before("<span class='text-danger'>Error, factura no emitida!!!</span><br>")
+
+            }else{
+                $("#panelInfo").before("<span>Registrando factura...</span><br>")
+
+                let datos={
+                    codigoResultado:data["codigoResultado"],
+                    codigoRecepcion:data["datoAdicional"]["codigoRecepcion"],
+                    cufd:data["datoAdicional"]["cufd"],
+                    sentDate:data["datoAdicional"]["sentDate"],
+                    xml:data["datoAdicional"]["xml"],
+                }
+
+                registrarFactura(datos)
+
+            }
         }
 
     })
 }
 }
 
+function registrarFactura(datos){
+    let numFactura=document.getElementById("numFactura").value
+    let idCliente=document.getElementById("idCliente").value
+    let subTotal=parseFloat(document.getElementById("subTotal").value)
+    let descAdicional=parseFloat(document.getElementById("descAdicional").value)
+    let totApagar=parseFloat(document.getElementById("totApagar").value)
+    let fechaEmision=transformarFecha(datos["sentDate"])
+
+    let obj={
+        "codfactura":numFactura,
+        "idCliente":idCliente,
+        "detalle":JSON.stringify(arregloCarrito),
+        "neto":subTotal,
+        "descuento":descAdicional,
+        "total":totApagar,
+        "fechaEmision":fechaEmision,
+        "cufd":cufd,
+        "cuf":datos["cuf"],
+        "xml":datos["xml"],
+
+    }
+    
+
+}
 
