@@ -1,4 +1,4 @@
-var host="http://localhost:5000/"
+var host="http://localhost:5000/";
 var codSistema="775FA42BE90F7B78EF98F57"
 var cuis="9272DC05"
 var nitEmpresa=338794023
@@ -24,17 +24,18 @@ function verificarComunicacion(){
         processData:false,
         success:function(data){
             if(data["transaccion"]==true){
-                document.getElementById("comunicacionSiat").innerHTML="Conectado"
-                document.getElementById("comunicacionSiat").className="badge badge-success"
+                document.getElementById("comunSiat").innerHTML="Conectado"
+                document.getElementById("comunSiat").className="badge badge-success"
             }
         }
     }).fail(function(jqXHR, textStatus, errorThrown){
         if(jqXHR.status==0){
-            document.getElementById("comunicacionSiat").innerHTML="Desconectado"
-            document.getElementById("comunicacionSiat").className="badge badge-danger"
+            document.getElementById("comunSiat").innerHTML="Desconectado"
+            document.getElementById("comunSiat").className="badge badge-danger"
         }
     })
 }
+
 
 setInterval(verificarComunicacion,3000)
 
@@ -114,6 +115,7 @@ function calcularPreProd(){
 var arregloCarrito=[]
 var listaDetalle=document.getElementById("listaDetalle")
 function agregarCarrito(){
+
     let actEconomica=document.getElementById("actEconomica").value
     let codProducto=document.getElementById("codProducto").value
     let codProductoSin=parseInt(document.getElementById("codProductoSin").value)
@@ -125,17 +127,17 @@ function agregarCarrito(){
     let descProducto=parseFloat(document.getElementById("descProducto").value)
     let preTotal=parseFloat(document.getElementById("preTotal").value)
 
-    let objDetalle={
-    actividadEconomica:actEconomica,
-    codigoProductoSin:codProductoSin,
-    codigoProducto:codProducto,
-    descripcion:conceptoPro,
-    cantidad:cantProducto,
-    unidadMedida:uniMedidaSin,
-    precioUnitario:preUnitario,
-    montoDescuento:descProducto,
-    subtotal:preTotal
-}
+    let objDetalle = {
+        actividadEconomica:actEconomica,
+        codigoProductoSin:codProductoSin,
+        codigoProducto:codProducto,
+        descripcion:conceptoPro,
+        cantidad:cantProducto,
+        unidadMedida:uniMedidaSin,
+        precioUnitario:preUnitario,
+        montoDescuento:descProducto,
+        subtotal:preTotal
+    }
     arregloCarrito.push(objDetalle)
     dibujarTablaCarrito()
 
@@ -157,7 +159,7 @@ function dibujarTablaCarrito(){
     arregloCarrito.forEach((detalle)=>{
         let fila=document.createElement("tr")
 
-        fila.innerHTML='<td>'+detalle.descripcion+'</td>'+
+        fila.innerHTML='<td>'+detalle.descripcion +'</td>'+
         '<td>'+detalle.cantidad+'</td>'+
         '<td>'+detalle.precioUnitario+'</td>'+
         '<td>'+detalle.montoDescuento+'</td>'+
@@ -220,7 +222,7 @@ function solicitudCufd(){
     
         $.ajax({
             type:"POST",
-            url:host+"api/Codigos/solicitudCufd?token="+token,
+            url:host+"api/Codigos/solicitudCufd?token="+ token,
             data:JSON.stringify(obj),
             cache:false,
             contentType:"application/json",
@@ -258,9 +260,9 @@ function registrarNuevoCufd(){
                 cache:false,
                 success:function(data){
                     if(data=="ok"){
-                    $("panelInfo").before("<span='text-primary'>Cufd registrado</span><br>")
+                    $("#panelInfo").before("<span='text-primary'>Cufd registrado</span><br>")
                 }else{
-                    $("panelInfo").before("<span='text-danger'>Error de registro cufd!!!</span><br>")
+                    $("#panelInfo").before("<span='text-danger'>Error de registro cufd!!!</span><br>")
 
                 }
             }
@@ -281,15 +283,15 @@ function verificarVigenciaCufd(){
         cache:false,
         dataType:"json",
         success:function(data){
-            console.log(data)
+            //fecha del ultimo cufd de mi BD    
             let vigCufdActual=new Date(data["fecha_vigencia"])
 
             if(date.getTime()>vigCufdActual.getTime()){
-                $("panelInfo").before("<span='text-warning'>Cufd caducado!!!</span><br>")
+                $("panelInfo").before("<span class='text-warning'>Cufd caducado!!!</span><br>")
                 $("panelInfo").before("<span>Registrando cufd...</span><br>")
                 //registrarNuevoCufd()
             }else{
-                $("panelInfo").before("<span='text-success'>Cufd vigente, puede facturar!!!</span><br>")
+                $("#panelInfo").before("<span class='text-success'>Cufd vigente, puede facturar!!!</span><br>")
 
                 cufd=data["codigo_cufd"]
                 codControlCufd=data["codigo_control"]
@@ -300,7 +302,7 @@ function verificarVigenciaCufd(){
 }
 /*===================================
 transformar fecha con formato iso8601
-=====================================*/
+=====================================*/     
 function transformarFecha(fechaISO){
     let fecha_iso=fechaISO.split("T")
     let hora_iso=fecha_iso[1].split(".")
@@ -373,17 +375,17 @@ function emitirFactura(){
     let numFactura=parseInt(document.getElementById("numFactura").value)
     let fechaFactura=date.toISOString()
     let rsCliente=document.getElementById("rsCliente").value
-    let tpDocumento=parseInt(document.getElementById(tpDocumento).value)
+    let tpDocumento=parseInt(document.getElementById("tpDocumento").value)
     let nitCliente=document.getElementById("nitCliente").value
     let metPago=parseInt(document.getElementById("metPago").value)
     let totApagar=parseFloat(document.getElementById("totApagar").value)
     let descAdicional=parseFloat(document.getElementById("descAdicional").value)
     let subTotal=parseFloat(document.getElementById("subTotal").value)
     let usuarioLogin=document.getElementById("usuarioLogin").innerHTML
-
-    let actEconomica=document.getElementById("actEconomia").value
+  
+    let actEconomica=document.getElementById("actEconomica").value
     let emailCliente=document.getElementById("emailCliente").value
-
+ 
     var obj={
         codigoAmbiente:2,
         codigoDocumentoSector:1,
@@ -478,6 +480,8 @@ function registrarFactura(datos){
     let descAdicional=parseFloat(document.getElementById("descAdicional").value)
     let totApagar=parseFloat(document.getElementById("totApagar").value)
     let fechaEmision=transformarFecha(datos["sentDate"])
+    let idUsuario=document.getElementById("idUsuario").value
+    let usuarioLogin=document.getElementById("usuarioLogin").innerHTML
 
     let obj={
         "codfactura":numFactura,
@@ -490,8 +494,40 @@ function registrarFactura(datos){
         "cufd":cufd,
         "cuf":datos["cuf"],
         "xml":datos["xml"],
+        "idUsuario":idUsuario,
+        "usuario":usuarioLogin,
+        "leyenda":leyenda
 
     }
+    $.ajax({
+        type:"POST",
+        url:"controlador/facturaControlador.php?ctrRegistrarFactura",
+        data:obj,
+        cache:false,
+        success:function(data){
+            
+            if(data=="ok"){
+                Swal.fire({
+                    icon:"success",
+                    showConfirmButton:false,
+                    title:"Factura Registrada"
+                })
+                setTimeout(function(){
+                    location.reload()
+
+                }, 1000)
+            }else{
+                Swal.fire({
+                    icon:"error",
+                    showConfirmButton:false,
+                    title:"Error de registro",
+                    timer:1500  
+                })
+            }
+            
+        }
+
+    })
     
 
 }
