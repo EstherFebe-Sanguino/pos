@@ -532,3 +532,6 @@ function registrarFactura(datos){
 
 }
 
+function MVerFactura(){
+}
+

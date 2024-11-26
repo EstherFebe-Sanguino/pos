@@ -198,6 +198,8 @@ var obj={
 
 }
 
+
+
 function MVerProducto(id){
     $("#modal-lg").modal("show");
    
