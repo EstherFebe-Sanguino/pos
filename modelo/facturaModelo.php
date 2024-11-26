@@ -34,7 +34,8 @@ static public function mdlRegFactura($data){
 }
 
 static public function mdlInfoFactura($id){
-        $stmt=Conexion::conectar()->prepare("select * from factura where id_factura=$id");
+        $stmt=Conexion::conectar()->prepare("SELECT * FROM factura JOIN cliente ON cliente.id_cliente=factura.id_cliente 
+        where id_factura=$id");
         $stmt->execute();
 
         return $stmt->fetch();

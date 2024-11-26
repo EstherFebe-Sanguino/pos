@@ -532,6 +532,18 @@ function registrarFactura(datos){
 
 }
 
-function MVerFactura(){
+function MVerFactura(id){
+    $("#modal-xl").modal("show");
+   
+    var obj="";
+    $.ajax({
+   
+       type:"POST",
+       url:"vista/factura/MVerFactura.php?id="+id,
+       data: obj,
+       success: function(data) {
+           $("#content-xl").html(data);
+       }
+    })
 }
 

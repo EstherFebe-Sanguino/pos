@@ -64,6 +64,16 @@ seccion de modals
         </div>
         <!-- /.modal-dialog -->
       </div>
+
+      <div class="modal fade" id="modal-xl">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content" id="content-xl">
+            
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
       <!-- /.modal -->
 
   <!-- jquery-validation -->
