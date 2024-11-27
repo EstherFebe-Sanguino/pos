@@ -546,4 +546,53 @@ function MVerFactura(id){
        }
     })
 }
+function MEliFactura(cuf){
 
+    let obj={
+        codigoAmbiente:2,
+        codigoPuntoVenta:0,
+        codigoPuntoVentaSpecified:true, 
+        codigoSistema:codSistema,
+        codigoSucursal:0,
+        nit:nitEmpresa,
+        codigoDocumentoSector:1,
+        codigoEmision:1,
+        codigoModalidad:2,
+        cufd:cufd,
+        cuis:cuis,
+        tipoFacturaDocumento:1,
+        codigoMotivo:1,
+        cuf:cufd
+    }
+    Swal.fire({
+        title:"Estas seguro de anular esta factura?",
+        showDenyButton:true,
+        showCancelButton:false,
+        confirmButtonText:"Confirmar",
+        denyButtonText:"Cancelar",
+    }).then((result)=>{
+        if(result.isConfirmed){
+//anular la factura
+        $.ajax({
+            type:"POST",
+            url:host+"api/CompraVenta/anulacion",
+            data:JSON.stringify(obj),
+            cache:false,
+            contentType:"application/json",
+            processData:false,
+            success:function(data){
+                if(data["codigoEstado"]==905){
+                    //anular en BD
+                    //aviso de confirmacion
+                }
+
+            }
+        })
+        }
+    
+    })
+
+}
+function anularFactura(cuf){
+
+}
