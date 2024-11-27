@@ -105,12 +105,15 @@ function busProducto(){
 }
 
 function calcularPreProd(){
+//el descuento debe aplicarse sobre el total producto
+
     let cantPro=parseInt(document.getElementById("cantProducto").value)
     let descProducto=parseFloat(document.getElementById("descProducto").value)
     let preUnitario=parseFloat(document.getElementById("preUnitario").value)
     
-    let preProducto=preUnitario-descProducto
-    document.getElementById("preTotal").value=preProducto*cantPro
+    let preProducto=(preUnitario*cantPro)-descProducto
+
+    document.getElementById("preTotal").value=preProducto
   } 
 var arregloCarrito=[]
 var listaDetalle=document.getElementById("listaDetalle")
@@ -591,7 +594,7 @@ function MEliFactura(cuf){
                         title:'Error!!!',
                         text:'Anulacion rechazada',
                         showConfirmButton:false,
-                        timer:1000
+                        timer:1000  
                     })
 
                 }
