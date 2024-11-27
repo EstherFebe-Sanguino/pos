@@ -583,7 +583,17 @@ function MEliFactura(cuf){
             success:function(data){
                 if(data["codigoEstado"]==905){
                     //anular en BD
-                    //aviso de confirmacion
+                    anularFactura(cuf)
+                   
+                }else{
+                    Swal.fire({
+                        icon:'error',
+                        title:'Error!!!',
+                        text:'Anulacion rechazada',
+                        showConfirmButton:false,
+                        timer:1000
+                    })
+
                 }
 
             }
@@ -594,5 +604,38 @@ function MEliFactura(cuf){
 
 }
 function anularFactura(cuf){
+    let obj={
+        cuf:cuf
+    }
+    $.ajax({
+        type:"POST",
+        url:host+"controlador/facturaControlador.php?ctrAnularFactura",
+        data:obj,
+        success:function(data){
+             //aviso de confirmacion
+            if(data=="ok"){
+                Swal.fire({
+                    icon:'success',
+                    title:'Factura Anulada',
+                    showConfirmButton:false,
+                    timer:1000
+                })
+
+                setTimeout(function(){
+                    location.reload()
+                },1200)
+            }else{
+                Swal.fire({
+                    icon:'error',
+                    title:'Error!!!',
+                    text:'Error al anular en el registro',
+                    showConfirmButton:false,
+                    timer:1000
+                })
+
+            }
+
+        }
+    })
 
 }

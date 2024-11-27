@@ -66,9 +66,9 @@ static public function mdlEditFactura($data){
   */
 }
 
-static public function mdlEliFactura($id){
+static public function mdlAnularFactura($cuf){
 
-    $stmt=Conexion::conectar()->prepare("delete from factura where id_factura=$id");
+    $stmt=Conexion::conectar()->prepare("update factura set estado_factura=0 where cuf=$'cuf'");
 
     if($stmt->execute()){
         return "ok";
@@ -76,10 +76,9 @@ static public function mdlEliFactura($id){
     else{
         return "error";
     }
-    /* 
+
     $stmt->close();
     $stmt->null();
-    */
 
 }
 
